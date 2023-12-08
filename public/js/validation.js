@@ -1,0 +1,3 @@
+function checkPrice(val){
+    
+}
