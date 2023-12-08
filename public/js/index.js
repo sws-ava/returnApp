@@ -173,8 +173,9 @@ function showSuccessModal(){
 
 function submitForm(){
         let form = document.querySelector(".return-page__form");
-        form.submitButton.click();
+        let ya = form.submitButton.click();
         
+    console.log(ya);
 
         // window.open('https://selfmade.ru/', '_blank');
 }

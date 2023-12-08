@@ -55,8 +55,7 @@ class ReturnController extends Controller
                 'total' => $total,
                 'returnReasonsList' => $returnReasonsList->data
             ]);
-            
-            return $pdf->stream('invoice.pdf');
+            return $pdf->stream('returnReqest.pdf');
         }
     }
     
@@ -75,17 +74,16 @@ class ReturnController extends Controller
 
     public function getReturnDocumentId($request){
         $prepareData = [
-            // 'reason_return_id' => $request['rows'][1]['reason'],
             'document_return_request_status_id' => 1,
             'document_return_request_type_id' => $request['pay-type'],
             'structure_id' => 2,
-            'date' => $request['date'],
+            'date' => Carbon::now()->setTimezone('Europe/Moscow')->format('Y-m-d H:i'),
             'return_barcode' => $request['return_barcode'],
             'phone' => $request['phone'],
             'email' => $request['email'],
             'client_fio' => $request['name'],
             'order_number' => $request['order_number'],
-            'order_date' => Carbon::createFromFormat('d.m.Y', $request['order_date'])->add(1, 'day')->format('d-m-Y')
+            'order_date' => Carbon::createFromFormat('d.m.Y', $request['order_date'])->add(1, 'day')->setTimezone('Europe/Moscow')->format('Y-m-d')
         ];
         
         $userBank = [

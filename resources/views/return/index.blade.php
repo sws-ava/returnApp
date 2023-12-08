@@ -46,13 +46,12 @@
                                 <div class="auth__field field --sm --b-gray --required">
                                     <div class="field__title --gray">Телефон</div>
                                     <div class="field__wrap">
-                                        <input autocomplete="off" class="field__area" type="text" id="phone" name="phone" required="required">
+                                        <input autocomplete="off" class="field__area" type="text" id="phone" name="phone"  inputmode="numeric" required="required">
                                     </div>
                                     <div class="field__error"></div>
                                 </div>
                             </div>
                         </div>
-                        <input value=" {{Carbon\Carbon::now()->format('Y-m-d')."T".Carbon\Carbon::now()->format('H:i')}}" name="date" class="barcodeInput" type="hidden">
                         <input value="" name="return_barcode" class="barcodeInput" id="barcodeInput" type="hidden">
 
                         <div class="items">
