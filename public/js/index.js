@@ -120,8 +120,6 @@ let dateNow = Date.now()
 //     height: 80,
 //   });
 let barcodeInput = document.getElementById('barcodeInput')
-
-console.log('barcodeInput');
 barcodeInput.value = dateNow
 
 function hideSubForm(){
@@ -172,10 +170,8 @@ function showSuccessModal(){
 
 
 function submitForm(){
-        let form = document.querySelector(".return-page__form");
-        let ya = form.submitButton.click();
-        
-    console.log(ya);
-
-        // window.open('https://selfmade.ru/', '_blank');
+    $("#returnRequestForm").submit(function () {
+        window.open('https://selfmade.ru/', '_blank');
+        return
+    });
 }
