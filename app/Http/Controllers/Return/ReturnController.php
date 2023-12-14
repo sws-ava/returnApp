@@ -27,7 +27,7 @@ class ReturnController extends Controller
     public function getReturnReasonsList(){
         $response = Http::acceptJson()->withHeaders([
             'Authorization' => 'Bearer ' . Cache::get('erp_token')
-        ])->get('https://sm-core.caftanerp.dev/api/v2/reason-returns');
+        ])->get(env('API_URL').'/api/v2/reason-returns');
 
         $response = json_decode($response);
         return $response;
@@ -98,7 +98,7 @@ class ReturnController extends Controller
 
         $response = Http::acceptJson()->withHeaders([
             'Authorization' => 'Bearer ' . Cache::get('erp_token')
-        ])->post('https://sm-core.caftanerp.dev/api/v2/document-return-requests', $prepareData);
+        ])->post(env('API_URL').'/api/v2/document-return-requests', $prepareData);
         
         $response = json_decode($response);
         
@@ -112,7 +112,7 @@ class ReturnController extends Controller
         foreach($request->rows as $row){
             $response = Http::withHeaders([
                 'Authorization' => 'Bearer ' . Cache::get('erp_token')
-            ])->post('https://sm-core.caftanerp.dev/api/v2/document-return-request-user-rows', [
+            ])->post(env('API_URL').'/api/v2/document-return-request-user-rows', [
                 'document_return_request_id' => $docId,
                 'article' => $row['article'],
                 'quantity' => $row['count'],
@@ -127,7 +127,7 @@ class ReturnController extends Controller
     
     public function getErpToken(){
 
-        $response = Http::post('https://sm-core.caftanerp.dev/api/v1/auth/login', [
+        $response = Http::post(env('API_URL').'/api/v1/auth/login', [
             'login' => env('SECRET_LOGIN'),
             'password' => env('SECRET_PASSWORD'),
         ]);
