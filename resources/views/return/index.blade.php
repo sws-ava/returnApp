@@ -18,7 +18,7 @@
         <div id="page" class="page">
             <div id="wrapper" class="case">
                 <div class="return-page">
-                    <form id="returnRequestForm" class="return-page__form" action="{{ route('return.return_pdf') }}" method="post" enctype="multipart/form-data">
+                    <form id="returnRequestForm" class="return-page__form" action="{{ route('return.create') }}" method="post" enctype="multipart/form-data">
                         @csrf
                         <div class="return-page__head">
                             <div class="barcode">

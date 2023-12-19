@@ -13,9 +13,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-// Route::get('/', function () {
-//     return view('welcome');
-// });
 
 Route::get('/', [App\Http\Controllers\Return\ReturnController::class, 'index']);
-Route::post('/return-pdf', [App\Http\Controllers\Return\ReturnController::class, 'return_pdf'])->name('return.return_pdf');
+Route::get('/{barcode}', [App\Http\Controllers\Return\ReturnController::class, 'show'])->name('return.show');
+Route::post('/create', [App\Http\Controllers\Return\ReturnController::class, 'create'])->name('return.create');
+Route::get('/pdf/{barcode}', [App\Http\Controllers\Return\ReturnController::class, 'return_pdf'])->name('return.return_pdf');

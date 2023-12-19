@@ -160,7 +160,10 @@ function calcSum(){
 
 function hideSuccessModal(){
     let modal = document.querySelector('.success-modal')
+    let barcode = modal.getAttribute('data-barcode')
     modal.classList.remove('--show')
+    if(barcode) window.location.replace('/pdf/'+barcode);
+    window.open('https://selfmade.ru/', '_blank');
 }
 
 function showSuccessModal(){
@@ -171,7 +174,7 @@ function showSuccessModal(){
 
 function submitForm(){
     $("#returnRequestForm").submit(function () {
-        window.open('https://selfmade.ru/', '_blank');
+        // window.open('https://selfmade.ru/', '_blank');
         return
     });
 }

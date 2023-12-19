@@ -26,22 +26,22 @@
             <span style="width:255px;text-align: center; display: block; margin-bottom: 10px;font-size: 24px;">SELFMADE</span>
             @php
                 $generator = new Picqer\Barcode\BarcodeGeneratorHTML();
-                $returnBarcode = $data->return_barcode;
+                $returnBarcode = $data->attributes->return_barcode;
             @endphp
             
             {!! $generator->getBarcode($returnBarcode, $generator::TYPE_CODE_128) !!}
-            <span style="width:255px;text-align: center; display: block; margin-top: 10px;">{{$data->return_barcode}}</span>
+            <span style="width:255px;text-align: center; display: block; margin-top: 10px;">{{$data->attributes->return_barcode}}</span>
         </td>
             <td style="">ООО «Инстита»</td>
         </tr>
         <tr>
-            <td style="border-bottom: 1px solid  #d9d9d9;"><span style=" font-size: 10px">ФИО</span>: {{$data->name}}</td>
+            <td style="border-bottom: 1px solid  #d9d9d9;"><span style=" font-size: 10px">ФИО</span>: {{$data->attributes->client_fio}}</td>
         </tr>
         <tr>
-            <td style="border-bottom: 1px solid  #d9d9d9;"><span style=" font-size: 10px">E-MAIL</span>: {{$data->email}}</td>
+            <td style="border-bottom: 1px solid  #d9d9d9;"><span style=" font-size: 10px">E-MAIL</span>: {{$data->attributes->email}}</td>
         </tr>
         <tr>
-            <td style="border-bottom: 1px solid  #d9d9d9;"><span style=" font-size: 10px">ТЕЛЕФОН</span>: {{$data->phone}}</td>
+            <td style="border-bottom: 1px solid  #d9d9d9;"><span style=" font-size: 10px">ТЕЛЕФОН</span>: {{$data->attributes->phone}}</td>
         </tr>
     </table>
     <p>
@@ -52,9 +52,9 @@
     <p style="margin: 30px 0px; font-size: 20px; text-align: center">Заявление на возврат</p>
     <table width="100%">
         <tr>
-            <td style="width: 40%; border-bottom: 1px solid  #d9d9d9; padding: 5px 10px;"><span style=" font-size: 10px">Номер заказа</span>: {{$data->order_number}}</td>
+            <td style="width: 40%; border-bottom: 1px solid  #d9d9d9; padding: 5px 10px;"><span style=" font-size: 10px">Номер заказа</span>: {{$data->attributes->order_number}}</td>
             <td style="width: 20%"></td>
-            <td style="width: 40%; border-bottom: 1px solid  #d9d9d9; padding: 5px 10px;"><span style=" font-size: 10px">Дата доставки заказа</span>: {{$data->order_date}}</td>
+            <td style="width: 40%; border-bottom: 1px solid  #d9d9d9; padding: 5px 10px;"><span style=" font-size: 10px">Дата доставки заказа</span>: {{$data->attributes->order_date}}</td>
         </tr>
     </table>
     <br>
@@ -68,17 +68,17 @@
             <td style="text-align: center; padding: 5px 10px;">Стоимость</td>
             <td style="text-align: center; padding: 5px 10px;">Причина <br> возврата</td>
         </tr>
-        @foreach ($data->rows as $product)
+        @foreach ($data->relationships->userRows as $product)
             <tr>
                 <td style="text-align: center; padding: 5px 10px;">{{ $loop->index + 1 }}</td>
-                <td style="text-align: left; padding: 5px 10px;">{{ $product['article'] }}</td>
-                <td style="text-align: left; padding: 5px 10px;">{{ $product['name'] }}</td>
-                <td style="text-align: center; padding: 5px 10px;">{{ $product['size'] }}</td>
-                <td style="text-align: center; padding: 5px 10px;">{{ $product['count'] }}</td>
-                <td style="text-align: center; padding: 5px 10px;">{{ $product['price'] }}</td>
+                <td style="text-align: left; padding: 5px 10px;">{{ $product->attributes->article }}</td>
+                <td style="text-align: left; padding: 5px 10px;">{{ $product->attributes->product_name }}</td>
+                <td style="text-align: center; padding: 5px 10px;">{{ $product->attributes->size }}</td>
+                <td style="text-align: center; padding: 5px 10px;">{{ $product->attributes->quantity }}</td>
+                <td style="text-align: center; padding: 5px 10px;">{{ $product->attributes->price }}</td>
                 <td style="text-align: center; padding: 5px 10px;">
-                    @foreach($returnReasonsList as $item)
-                        @if($item->id == $product['reason'])
+                    @foreach($returnReasonsList as $item)                        
+                        @if($item->id == $product->attributes->reason_return_id)
                             {{$item->attributes->name}}
                         @endif
                     @endforeach
@@ -94,21 +94,21 @@
             от 07.02.92 г., прошу расторгнуть со мной договор купли-продажи и возвратить сумму в размере: {{$total}} руб
         </p>
         <p>
-            <span style="display: inline-block; min-width: 15px;">@if($data['pay-type'] == 'card')&#10003;@endif</span> Оплачивала картой на сайте. Прошу перечислить денежные средства на карту, с которой они были списаны.
+            <span style="display: inline-block; min-width: 15px;">@if($data->attributes->document_return_request_type_id == 1)&#10003;@endif</span> Оплачивала картой на сайте. Прошу перечислить денежные средства на карту, с которой они были списаны.
         </p>
         <p>
-            <span style="display: inline-block; min-width: 15px;">@if($data['pay-type'] == 'courier')&#10003;@endif</span> Оплачивала курьеру при получении. Прошу перечислить денежные средства по реквизитам:
+            <span style="display: inline-block; min-width: 15px;">@if($data->attributes->document_return_request_type_id == 2)&#10003;@endif</span> Оплачивала курьеру при получении. Прошу перечислить денежные средства по реквизитам:
         </p>
-        @if($data['pay-type'] == 'courier')
+        @if($data->attributes->document_return_request_type_id == 2)
         <table width="100%">
             <tr>
-                <td style="padding-top: 10px;border-bottom: 1px solid  #d9d9d9;"><span style=" font-size: 10px">ФИО</span>: {{$data->fio}}</td>
+                <td style="padding-top: 10px;border-bottom: 1px solid  #d9d9d9;"><span style=" font-size: 10px">ФИО</span>: {{$data->attributes->fio}}</td>
             </tr>
             <tr>
-                <td style="padding-top: 10px;border-bottom: 1px solid  #d9d9d9;"><span style=" font-size: 10px">БИК</span>: {{$data->bik}}</td>
+                <td style="padding-top: 10px;border-bottom: 1px solid  #d9d9d9;"><span style=" font-size: 10px">БИК</span>: {{$data->attributes->bik}}</td>
             </tr>
             <tr>
-                <td style="padding-top: 10px;border-bottom: 1px solid  #d9d9d9;"><span style=" font-size: 10px">Номер счета получателя</span>: {{$data->bank}}</td>
+                <td style="padding-top: 10px;border-bottom: 1px solid  #d9d9d9;"><span style=" font-size: 10px">Номер счета получателя</span>: {{$data->attributes->bank}}</td>
             </tr>
         </table>
         <br><br>
