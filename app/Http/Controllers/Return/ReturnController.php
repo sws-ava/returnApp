@@ -21,7 +21,6 @@ use App\Mail\ReturnRequestMail;
 class ReturnController extends Controller
 {
     public function index(){
-
         TokenService::checkErpToken();
 
         $returnReasonsList = ApiRequestService::getReturnReasonsList();
@@ -70,6 +69,16 @@ class ReturnController extends Controller
         }
 
         $document_barcode = $newReturnRequestDoc->data->attributes->return_barcode;
+        $item = ApiRequestService::getOrderData($document_barcode);
+
+        $total = 0;
+        $pdf = PDF::loadView('return.return_pdf', [
+            'data' => $item,
+            'total' => $total,
+            'returnReasonsList' => $returnReasonsList
+        ]);
+
+        Mail::to($request['email'])->send(new ReturnRequestMail($newReturnRequestDoc->data->id, $pdf->output()));
 
         return redirect()->route('return.show', $document_barcode);
     }

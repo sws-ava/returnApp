@@ -12,6 +12,12 @@ use Illuminate\Queue\SerializesModels;
 use Illuminate\Mail\Mailables\Address;
 use Illuminate\Mail\Mailables\Attachment;
 
+
+// use PDF;
+// use App\Services\TokenService;
+// use App\Services\ApiRequestService;
+
+
 class ReturnRequestMail extends Mailable
 {
     use Queueable, SerializesModels;
@@ -19,9 +25,12 @@ class ReturnRequestMail extends Mailable
     /**
      * Create a new message instance.
      */
-    public function __construct()
+    public function __construct(
+        public $orderNum,
+        public $pdf
+    )
     {
-        //
+        
     }
 
     /**
@@ -30,7 +39,6 @@ class ReturnRequestMail extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            from: new Address(env('MAIL_FROM_ADDRESS', 'return@selfmade.ru'), env('MAIL_FROM_NAME', 'SELFMADE – интернет-магазин одежды')),
             subject: 'Возврат товара'
         );
     }
@@ -53,8 +61,8 @@ class ReturnRequestMail extends Mailable
     public function attachments(): array
     {
         return [
-            // Attachment::fromData(fn () => $this->pdf, 'Возврат товара.pdf')
-            //         ->withMime('application/pdf'),
+            Attachment::fromData(fn () => $this->pdf, 'Возврат товара.pdf')
+                    ->withMime('application/pdf'),
         ];
     }
 }

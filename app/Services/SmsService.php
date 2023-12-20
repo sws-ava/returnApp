@@ -22,7 +22,7 @@ class SmsService
         }else{
             return;
         }
-        $message = 'Ваше заявление №'.$orderNumber.' принято. SELFMADE.';
+        $message = 'Ваше заявление №'.$orderNumber.' принято. selfmade.ru';
 
         $or_id = Http::get('https://smsimple.ru/http_origins.php?user='.$login.'&pass='.$pass);
         $response =  Http::get('https://smsimple.ru/http_send.php?user='.$login.'&pass='.$pass.'&or_id='.$or_id.'&phone='.$phone.'&message='.$message);

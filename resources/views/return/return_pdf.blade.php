@@ -102,7 +102,7 @@
         @if($data->attributes->document_return_request_type_id == 2)
         <table width="100%">
             <tr>
-                <td style="padding-top: 10px;border-bottom: 1px solid  #d9d9d9;"><span style=" font-size: 10px">ФИО</span>: {{$data->attributes->fio}}</td>
+                <td style="padding-top: 10px;border-bottom: 1px solid  #d9d9d9;"><span style=" font-size: 10px">ФИО</span>: {{$data->attributes->recipient_fio}}</td>
             </tr>
             <tr>
                 <td style="padding-top: 10px;border-bottom: 1px solid  #d9d9d9;"><span style=" font-size: 10px">БИК</span>: {{$data->attributes->bik}}</td>
